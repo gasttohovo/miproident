@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Visualization</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="treeCanvas" width="500" height="500"></canvas>
+
+<script>
+const tree = {
+    x: 250,
+    y: 50,
+    r: 10,
+    depth: 0,
+    children: [
+        {
+            x: 150,
+            y: 150,
+            r: 8,
+            depth: 1,
+            children: [
+                {
+                    x: 100,
+                    y: 250,
+                    r: 6,
+                    depth: 2,
+                    children: []
+                }
+            ]
+        },
+        {
+            x: 350,
+            y: 150,
+            r: 8,
+            depth: 1,
+            children: []
+        }
+    ]
+};
+
+function drawNode(ctx, node) {
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'blue';
+    ctx.fill();
+
+    node.children.forEach(child => {
+        // Draw line to child node
+        ctx.beginPath();
+        ctx.moveTo(node.x, node.y);
+        ctx.lineTo(child.x, child.y);
+        ctx.stroke();
+
+        // Recursively draw child nodes
+        drawNode(ctx, child);
+    });
+}
+
+const canvas = document.getElementById('treeCanvas');
+const ctx = canvas.getContext('2d');
+
+drawNode(ctx, tree);
+</script>
+
+</body>
+</html>
